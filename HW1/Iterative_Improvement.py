@@ -1,4 +1,5 @@
 import random
+import time
 
 # shuffling
 # def shuffling(arr, num_machine):
@@ -60,6 +61,7 @@ def ii():
             for j in range(1, num_jobs):
                 ans[i][j] = max(ans[i-1][j], ans[i][j-1]) + arr[i][j]
 
+        # local answer VS optimal answer        
         local_ans = ans[num_machine-1][num_jobs-1]
         print("The %d round answer = %d" % ((n+1), local_ans))
         if local_ans < optimal_ans:
@@ -69,4 +71,10 @@ def ii():
 
 # main
 if __name__=="__main__":
+    start_time = time.time()
     ii()
+    execute_time = time.time() - start_time
+    print("execute time: %.4fs\n" % (execute_time))
+
+# Best Answer = 1379
+# execute time: 10.8723s
