@@ -95,7 +95,7 @@ def ii(file_name):
         # print("The %d round answer = %d" % ((iter_count+1), score))
         if score < best_score:
             best_score = score
-            best_order = arr[num_machine-1]
+            best_order = arr
         if score > worst_score:
             worst_score = score
         avg_score += score
