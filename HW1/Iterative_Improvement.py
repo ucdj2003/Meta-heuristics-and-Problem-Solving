@@ -10,14 +10,18 @@ import os
 #     return arr
 
 # swap(arr[i][swapjob], arr[i][swapjob + 1])
-def swapping(arr, num_machine, num_jobs, swapjob, intervaljobs):
+def swapping(arr, job_order, num_machine, num_jobs, swapjob, intervaljobs):
     if intervaljobs == 0:
         return
+    flag = 0
     for i in range(num_machine):
         if swapjob + intervaljobs >= num_jobs:  # over array gap
             break
         arr[i][swapjob + intervaljobs], arr[i][swapjob] =  arr[i][swapjob], arr[i][swapjob + intervaljobs]
-    return arr
+        if flag == 0:  # do once
+            job_order[swapjob], job_order[swapjob + intervaljobs] = job_order[swapjob + intervaljobs], job_order[swapjob]
+            flag = 1
+    return arr, job_order
 
 def ii(file_name):
     # init var
@@ -45,6 +49,10 @@ def ii(file_name):
             for j in range(num_jobs):
                 arr[i][j] = int(str2[j])
 
+    temp_order = []
+    for i in range(num_jobs):
+        temp_order.append(i)
+
     # print details
     print("read: " + file_name)    
     print("number of machines: " + str(num_machine))
@@ -66,6 +74,11 @@ def ii(file_name):
                 for j in range(num_jobs):
                     arr[i][j] = int(str2[j])
 
+        job_order = []
+        # load previous order to job order
+        for i in temp_order:
+            job_order.append(i)
+
         # Meta-heuristics Algorithm
         if intervaljobs == num_jobs & swapjob == num_jobs:
             swapjob = 1
@@ -73,7 +86,7 @@ def ii(file_name):
         if intervaljobs == num_jobs:
             swapjob += 1
             intervaljobs = 1
-        swapping(arr, num_machine, num_jobs, swapjob, intervaljobs) # swapjob(neiborhood function)
+        swapping(arr, job_order, num_machine, num_jobs, swapjob, intervaljobs) # swapjob(neiborhood function)
         # print(arr)
         intervaljobs += 1
 
@@ -95,7 +108,8 @@ def ii(file_name):
         # print("The %d round answer = %d" % ((iter_count+1), score))
         if score < best_score:
             best_score = score
-            best_order = arr
+            best_order = job_order
+            # best_arr = arr
         if score > worst_score:
             worst_score = score
         avg_score += score
@@ -104,8 +118,10 @@ def ii(file_name):
     print("Best Score = %d" % (best_score))
     print("Worst Score = %d" % (worst_score))
     print("Avg Score = %d" % (avg_score))
-    print("best order is: ")
+    print("Best Order is: ")
     print(best_order)
+    # print("Best arr is: ")
+    # print(best_arr)
 
 # main
 if __name__=="__main__":
