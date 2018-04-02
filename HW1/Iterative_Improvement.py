@@ -9,19 +9,16 @@ import os
 #         print(arr[i])    
 #     return arr
 
-# swap(arr[i][swapjob], arr[i][swapjob + 1])
-def swapping(arr, job_order, num_machine, num_jobs, swapjob, intervaljobs):
-    if intervaljobs == 0:
-        return
-    flag = 0
+# swap random two order
+def swap_order(arr, swap_num, num_machine, job_order):
+    job_order[swap_num[0]], job_order[swap_num[1]] = job_order[swap_num[1]], job_order[swap_num[0]]
     for i in range(num_machine):
-        if swapjob + intervaljobs >= num_jobs:  # over array gap
-            break
-        arr[i][swapjob + intervaljobs], arr[i][swapjob] =  arr[i][swapjob], arr[i][swapjob + intervaljobs]
-        if flag == 0:  # do once
-            job_order[swapjob], job_order[swapjob + intervaljobs] = job_order[swapjob + intervaljobs], job_order[swapjob]
-            flag = 1
+        arr[i][swap_num[0]], arr[i][swap_num[1]] = arr[i][swap_num[1]], arr[i][swap_num[0]]
     return arr, job_order
+
+def make_new_order(arr, num_jobs, num_machine, job_order):
+    random_number = random.sample(range(num_jobs), 2)
+    return swap_order(arr, random_number, num_machine, job_order)
 
 def ii(file_name):
     # init var
@@ -31,8 +28,6 @@ def ii(file_name):
     best_order = None
     worst_score = 0
     avg_score = 0
-    swapjob = 0
-    intervaljobs = 0
     iter_num = 10000
 
     # read tai.txt
@@ -60,38 +55,12 @@ def ii(file_name):
     print("iterations: " + str(iter_num))
 
     for iter_count in range(0, iter_num):
-        # read tai.txt
-        with open(file_name, 'rt', encoding='UTF-8') as fin:
-            str1 = fin.readline()
-            str1 = str1.split()
-            num_jobs = int(str1[0])
-            num_machine = int(str1[1])
-            arr = [[0 for j in range(num_jobs)] for i in range(num_machine)]   # arr[machines][jobs]
-            # read jobs
-            for i in range(num_machine):
-                str2 = fin.readline()
-                str2 = str2.split()
-                for j in range(num_jobs):
-                    arr[i][j] = int(str2[j])
-
         job_order = []
         # load previous order to job order
         for i in temp_order:
             job_order.append(i)
 
         # Meta-heuristics Algorithm
-        if intervaljobs == num_jobs & swapjob == num_jobs:
-            swapjob = 1
-            intervaljobs = 1
-        if intervaljobs == num_jobs:
-            swapjob += 1
-            intervaljobs = 1
-        swapping(arr, job_order, num_machine, num_jobs, swapjob, intervaljobs) # swapjob(neiborhood function)
-        # print(arr)
-        intervaljobs += 1
-
-        # shuffling(arr, num_machine)
-
         # DP(max span)
         ans = [[0 for j in range(num_jobs)] for i in range(num_machine)]
         ans[0][0] = arr[0][0]
@@ -109,7 +78,7 @@ def ii(file_name):
         if score < best_score:
             best_score = score
             best_order = job_order
-            # best_arr = arr
+            make_new_order(arr, num_jobs, num_machine, job_order)
         if score > worst_score:
             worst_score = score
         avg_score += score
