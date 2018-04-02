@@ -15,21 +15,17 @@ temp0 = 0
 temp1 = 0
 
 def swap_order(arr, swap_num, num_machine, job_order):
-    job_order[swap_num[0]], job_order[swap_num[1]
-                                      ] = job_order[swap_num[1]], job_order[swap_num[0]]
+    job_order[swap_num[0]], job_order[swap_num[1]] = job_order[swap_num[1]], job_order[swap_num[0]]
     temp0 = swap_num[0]
     temp1 = swap_num[1]
     for i in range(num_machine):
-        arr[i][swap_num[0]], arr[i][swap_num[1]
-                                    ] = arr[i][swap_num[1]], arr[i][swap_num[0]]
+        arr[i][swap_num[0]], arr[i][swap_num[1]] = arr[i][swap_num[1]], arr[i][swap_num[0]]
     return arr, job_order
 
 def swap_original(arr, swap_num0, swap_num1, num_machine, job_order):
-    job_order[swap_num0], job_order[swap_num1
-                                      ] = job_order[swap_num1], job_order[swap_num0]
+    job_order[swap_num0], job_order[swap_num1] = job_order[swap_num1], job_order[swap_num0]
     for i in range(num_machine):
-        arr[i][swap_num0], arr[i][swap_num1
-                                    ] = arr[i][swap_num1], arr[i][swap_num0]
+        arr[i][swap_num0], arr[i][swap_num1] = arr[i][swap_num1], arr[i][swap_num0]
     return arr, job_order
 
 
@@ -55,8 +51,7 @@ def ii(file_name):
         str1 = str1.split()
         num_jobs = int(str1[0])
         num_machine = int(str1[1])
-        arr = [[0 for j in range(num_jobs)] for i in range(
-            num_machine)]   # arr[machines][jobs]
+        arr = [[0 for j in range(num_jobs)] for i in range(num_machine)]   # arr[machines][jobs]
         # read jobs
         for i in range(num_machine):
             str2 = fin.readline()
