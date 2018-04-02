@@ -74,7 +74,7 @@ def ii(file_name):
     print("number of jobs: " + str(num_jobs))
     print("iterations: " + str(iter_num))
 
-    for iter_count in range(0, 10):
+    for iter_count in range(0, iter_num):
         # DP(max span)
         ans = [[0 for j in range(num_jobs)] for i in range(num_machine)]
         ans[0][0] = arr[0][0]
@@ -95,7 +95,6 @@ def ii(file_name):
             best_order = job_order
         if score > worst_score:
             worst_score = score
-        avg_score += score
 
         # Meta-heuristics Algorithm
         if score <= local_score:
@@ -104,6 +103,8 @@ def ii(file_name):
         else:
             swap_original(arr, temp0, temp1, num_machine, job_order)
             make_new_order(arr, num_jobs, num_machine, job_order)
+        
+        avg_score += score
         # print(arr[i])
         # print(score)
         # print(local_score)
