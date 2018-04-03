@@ -91,7 +91,7 @@ def ii(file_name):
         if score > worst_score:
             worst_score = score
 
-        # Meta-heuristics Algorithm
+        # Meta-heuristics Algorithm(Neiborhood function)
         if score <= local_score:
             make_new_order(arr, num_jobs, num_machine, job_order)
             local_score = score
